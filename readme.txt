@@ -38,7 +38,7 @@ mvn -version
 
 Clonar el repositorio público desde GitHub:
 
-git clone URL_DEL_REPOSITORIO
+git clone https://github.com/PinguiPau/PruebaPetStore.git
 
 Ingresar a la carpeta del proyecto:
 
