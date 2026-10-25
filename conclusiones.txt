@@ -1,0 +1,86 @@
+CONCLUSIONES – PRUEBAS DE API REST CON KARATE
+
+1. Objetivo
+
+El objetivo de este proyecto fue realizar pruebas automatizadas sobre la API REST de PetStore utilizando Karate,
+Java, Maven y JUnit. Se buscó validar las operaciones principales de gestión de usuarios: creación, consulta, actualización y eliminación,
+comprobando las respuestas del servicio y los códigos de estado HTTP.
+
+2. Pruebas realizadas
+
+Se desarrolló un flujo integrado en el archivo `flujo-usuario.feature` para ejecutar secuencialmente las operaciones de gestión de un usuario:
+
+- Crear usuario (POST): se envió la información del usuario `Prueba01` y se verificó que la API respondiera con el código HTTP 200.
+- Consultar usuario (GET): se comprobó que el usuario existiera y que su nombre, apellido y correo electrónico coincidieran con los valores esperados.
+- Actualizar usuario (PUT): se modificaron el nombre y el correo electrónico del usuario.
+- Consultar cambios (GET): se verificó que el nombre fuera `Juan` y el correo electrónico fuera `prueba02@gmail.com`.
+- Eliminar usuario (DELETE): se solicitó la eliminación del usuario y se verificó la respuesta HTTP 200.
+- Verificar eliminación (GET): se realizó una última consulta y se comprobó que la API respondiera con HTTP 404, indicando que el usuario ya no se encontraba disponible.
+
+3. Dificultades encontradas y soluciones
+
+Durante el desarrollo se presentaron algunas dificultades que permitieron comprender mejor el funcionamiento de las pruebas automatizadas.
+
+- Configuración de la URL: inicialmente se presentó un error relacionado con la URL de la petición. Se revisó la estructura del escenario
+y se ubicó correctamente la dirección del servicio antes de ejecutar la solicitud.
+
+Consulta de un usuario eliminado: al consultar un usuario que ya había sido eliminado, la API devolvió el código HTTP 404 en lugar de 200.
+Se ajustó la validación para que este resultado se considerara correcto en la verificación posterior a la eliminación.
+
+Ejecución de los archivos de prueba: al principio, el ejecutor de Java apuntaba a un único archivo `.feature`. Para comprobar las operaciones
+en una secuencia controlada, se preparó `flujo-usuario.feature` y se configuró `PetStoreTest.java` para ejecutarlo.
+
+Advertencia de SLF4J: durante algunas ejecuciones apareció el mensaje `No SLF4J providers were found`.
+Esta advertencia no impidió que la ejecución integrada reportara el resultado `ALL PASSED`.
+
+4. Resultados obtenidos
+
+La ejecución final del archivo `flujo-usuario.feature`, realizada desde `PetStoreTest.java`, terminó con el resultado ALL PASSED.
+
+El reporte registró un escenario aprobado, con una duración total aproximada de 1513 milisegundos.
+Se verificaron satisfactoriamente las siguientes operaciones:
+
+- La creación del usuario `Prueba01` mediante POST, con respuesta HTTP 200.
+- La consulta del usuario mediante GET, validando su nombre inicial `Paula` y el correo `Prueba01@gmail.com`.
+- La actualización mediante PUT, con respuesta HTTP 200.
+- La consulta posterior a la actualización, comprobando el nombre `Juan` y el correo `prueba02@gmail.com`.
+- La eliminación del usuario mediante DELETE, con respuesta HTTP 200.
+- La consulta final, que devolvió HTTP 404, tal como se esperaba después de eliminar el usuario.
+
+Las validaciones de los datos y de los códigos de estado se completaron sin errores en esta ejecución.
+El reporte HTML y las capturas de pantalla se conservaron en la carpeta `evidencias/` como soporte de los resultados obtenidos.
+
+5. Visualización y conservación de evidencias
+
+El reporte de Karate permite revisar el resultado de la ejecución y consultar información sobre los pasos de cada escenario.
+El archivo de resumen se genera normalmente en `target/karate-reports/karate-summary.html`.
+
+Si el reporte no se abre directamente desde el navegador, se puede intentar visualizarlo desde IntelliJ IDEA mediante la opción
+Run 'Karate Summary with Coverage', cuando esté disponible en el entorno de desarrollo.
+
+Para conservar las evidencias, se guardaron capturas de la ejecución y una copia de la carpeta de reportes en `evidencias/reporte-karate/`,
+con el propósito de facilitar la revisión de los resultados.
+
+6. Aprendizajes
+
+El desarrollo de este ejercicio permitió fortalecer los conocimientos sobre:
+
+- El uso de los métodos HTTP GET, POST, PUT y DELETE.
+- La interpretación de códigos de estado HTTP.
+- La construcción y validación de solicitudes y respuestas JSON.
+- La definición de variables y la organización de escenarios en Karate.
+- La ejecución de pruebas mediante Java, Maven y JUnit.
+- La lectura de reportes y el análisis de errores durante las pruebas automatizadas.
+
+7. Conclusión final
+
+La realización de este proyecto permitió comprobar de manera práctica cómo automatizar pruebas de una API REST con Karate.
+La ejecución integrada finalizó con el resultado `ALL PASSED`, y las validaciones de creación, consulta, actualización y eliminación
+del usuario se completaron según lo definido en el escenario.
+
+Las dificultades encontradas durante la configuración y ejecución ayudaron a mejorar la capacidad para interpretar errores,
+ajustar las validaciones y organizar los escenarios de prueba. Además, la documentación y conservación de evidencias permiten
+presentar los resultados de forma clara y facilitan la revisión del proceso.
+
+El ejercicio contribuyó al aprendizaje de las pruebas automatizadas de servicios REST y al uso de herramientas aplicables a
+actividades de aseguramiento de calidad de software.
