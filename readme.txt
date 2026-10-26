@@ -92,7 +92,7 @@ Continúa con el paso 1.2.
 1. Abre el navegador web.
 2. Ingresa al sitio oficial de Eclipse Temurin:
 
-   https://adoptium.net/
+   https://adoptium.net/es/temurin/releases?version=21&os=any&arch=any
 
 3. Busca la descarga de JDK 21.
 4. Selecciona el sistema operativo Windows y la arquitectura correspondiente
