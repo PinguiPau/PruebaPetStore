@@ -42,279 +42,187 @@ JUnit: permite integrar y ejecutar las pruebas desde Java.
 
 IMPORTANTE:
 
-Para simplificar la configuración, este manual utiliza IntelliJ IDEA para
-descargar y configurar Java JDK 21. No es necesario instalar Java
-manualmente desde una página web.
+Para simplificar la configuración, el procedimiento principal utiliza las opciones disponibles en IntelliJ IDEA para configurar el JDK y la distribución de Maven.
 
-La instalación de Maven se describe primero, pero su verificación y ejecución
-se realizarán después de configurar Java JDK 21.
+No es obligatorio instalar Java JDK ni Apache Maven por separado cuando IntelliJ IDEA puede descargar o proporcionar las herramientas necesarias y el proyecto se ejecuta desde el entorno integrado.
 
-Apache Maven es una herramienta que permite administrar las dependencias,
-compilar el proyecto y ejecutar las pruebas automatizadas.
+La instalación independiente de Java y Maven se incluye como una alternativa para quienes necesiten ejecutar comandos desde una terminal externa de Windows.
 
-El archivo pom.xml del proyecto contiene las dependencias y configuraciones
-que Maven utiliza para preparar el entorno de ejecución.
+El proyecto utiliza Java 21 como versión de compilación, por lo que se recomienda mantener esta versión para evitar incompatibilidades.
 
-En este procedimiento se utilizará WinGet, el administrador de paquetes de
-Windows, para instalar Maven mediante comandos, sin tener que descargar y
-extraer manualmente un archivo ZIP.
+==================================================================================================================
+PASO 1. Instalar IntelliJ IDEA
+==================================================================================================================
 
-================================================================================
-PASO 1: INSTALACIÓN DE APACHE MAVEN MEDIANTE CMD
-================================================================================
+IntelliJ IDEA es el entorno de desarrollo que se utilizará para abrir el proyecto, configurar las herramientas y ejecutar las pruebas.
 
-1.1. Verificar que WinGet esté disponible
+--------------------------------------------------------------------------------------------
+1.1. Descargar IntelliJ IDEA
+--------------------------------------------------------------------------------------------
 
-Abre el menú Inicio de Windows.
+Abrir el navegador.
 
-Escribe CMD y abre el Símbolo del sistema.
+Ingresar a la página oficial:
 
-Ejecuta el siguiente comando:
+https://www.jetbrains.com/idea/download/
 
-winget --version
+Buscar la versión disponible para Windows.
 
-RESULTADO ESPERADO:
+Descargar una edición compatible con proyectos Java y Maven.
 
-La terminal muestra la versión de WinGet instalada.
+Ejecutar el instalador descargado.
 
-Si el comando no se reconoce, comprueba que el componente Instalador de
-aplicaciones (App Installer) esté instalado y actualizado en Windows.
+Seguir las instrucciones del asistente de instalación.
 
-1.2. Buscar Apache Maven
+Finalizar la instalación y abrir IntelliJ IDEA desde el menú Inicio de Windows.
 
-En la terminal CMD, ejecuta:
+Si el programa solicita importar configuraciones anteriores y no se dispone de una configuración previa, se puede continuar sin importar ajustes.
 
-winget search Maven --source winget
+Resultado esperado: IntelliJ IDEA se abre y muestra su pantalla de bienvenida.
 
-Este comando busca paquetes relacionados con Maven utilizando la fuente
-winget, sin recurrir a la fuente de Microsoft Store.
+Si IntelliJ IDEA ya está instalado, se puede continuar directamente con el siguiente paso.
 
-RESULTADO ESPERADO:
+============================================================================================
+PASO 2. Descargar el proyecto desde GitHub
+============================================================================================
 
-La terminal muestra una lista de resultados relacionados con Maven.
-Busca el paquete correspondiente a Apache Maven e identifica su nombre
-y su identificador (Id).
+El proyecto se encuentra alojado en GitHub. Se puede obtener mediante Git o descargando el repositorio como archivo ZIP.
 
-IMPORTANTE: Si utilizas el comando winget search Maven sin especificar
-la fuente, puede aparecer un mensaje similar al siguiente:
+---------------------------------------------------------------------------------------------
+2.1. Opción A: clonar el repositorio con Git
+---------------------------------------------------------------------------------------------
 
-The msstore source requires that you view the following agreements
-before using.
+Verificar si Git está instalado
 
-Do you agree to all the source agreements terms?
-[Y] Yes  [N] No:
+Abrir CMD, PowerShell o la terminal de Windows.
 
-Este mensaje solicita aceptar los términos de la fuente Microsoft Store.
-No significa que Maven haya fallado ni que exista un problema con Windows.
+Ejecutar:
 
-Si deseas continuar utilizando esa fuente, puedes escribir Y y presionar
-Enter, siempre que estés de acuerdo con los términos mostrados.
+git --version
 
-Sin embargo, para este procedimiento se recomienda utilizar directamente:
+Si aparece la versión de Git, continuar con el siguiente apartado.
 
-winget search Maven --source winget
+Si el comando no se reconoce, descargar Git desde su página oficial:
 
-1.3. Instalar Apache Maven
+https://git-scm.com/downloads
 
-Después de identificar el paquete correspondiente en los resultados,
-ejecuta el comando de instalación con el identificador que aparezca.
+Ejecutar el instalador, seguir las instrucciones y abrir una terminal nueva.
 
-Por ejemplo, si el identificador mostrado es Apache.Maven, utiliza:
+Clonar el repositorio
 
-winget install --id Apache.Maven -e --source winget
+Abrir PowerShell.
 
-IMPORTANTE: El identificador debe coincidir con el que aparece en los
-resultados de búsqueda. Si es diferente, reemplaza Apache.Maven por el
-identificador correcto.
+Dirigirse a la carpeta donde se desea guardar el proyecto. Por ejemplo, para guardarlo en el escritorio:
 
-Espera a que termine la instalación. Si Windows solicita autorización
-para realizar cambios, revisa la solicitud y autoriza la operación si
-corresponde.
+cd "$HOME\Desktop"
 
-1.4. Verificar la instalación de Maven
+Ejecutar el siguiente comando:
 
-Cuando finalice la instalación:
+git clone https://github.com/PinguiPau/PruebaPetStore.git
 
-Cierra la ventana de CMD.
+Esperar a que Git descargue los archivos.
 
-Abre una nueva ventana del Símbolo del sistema.
+Entrar en la carpeta creada:
 
-Ejecuta:
+cd PruebaPetStore
 
-mvn -version
+Comprobar su contenido:
 
-RESULTADO ESPERADO:
+Get-ChildItem
 
-La terminal muestra información sobre la versión de Apache Maven y la
-versión de Java que utiliza para ejecutarse.
+Resultado esperado: se muestran los archivos y carpetas del proyecto, incluido pom.xml y la carpeta src.
 
-Si el comando mvn no se reconoce, comprueba que la instalación haya
-finalizado correctamente y que la ruta de Maven esté disponible en la
-variable PATH de Windows.
+Importante: Get-ChildItem es un comando de PowerShell. Si se utiliza CMD, se debe ejecutar dir en su lugar.
 
-Si Maven indica que no encuentra Java o que JAVA_HOME no está configurada,
-no significa necesariamente que Maven se haya instalado mal. Continúa
-con el PASO 2 para descargar y configurar Java JDK 21 desde IntelliJ IDEA.
-Después, vuelve a ejecutar mvn -version.
+---------------------------------------------------------------------------------------
+2.2. Opción B: descargar el proyecto como ZIP
+---------------------------------------------------------------------------------------
 
-NOTA:
+Si no se desea instalar Git, se puede descargar el proyecto directamente desde GitHub.
 
-Para ejecutar Maven se necesita un JDK compatible. En este manual se
-utilizará Java JDK 21, descargado y configurado directamente desde
-IntelliJ IDEA, por lo que no es necesario instalar Java manualmente
-desde una página web.
+Abrir el repositorio:
 
-================================================================================
-PASO 2: DESCARGA E INSTALACIÓN DE INTELLIJ IDEA
-================================================================================
+https://github.com/PinguiPau/PruebaPetStore
 
-IntelliJ IDEA es el entorno de desarrollo utilizado para abrir el proyecto,
-visualizar el código Java, editar los escenarios y ejecutar las pruebas.
+Presionar el botón Code.
+
+Seleccionar Download ZIP.
+
+Esperar a que finalice la descarga.
+
+Extraer el archivo ZIP en una carpeta de fácil acceso.
+
+Identificar la carpeta que contiene directamente el archivo pom.xml.
+
+No es necesario utilizar Git si se elige esta alternativa.
+
+=======================================================================================
+PASO 3. Abrir el proyecto en IntelliJ IDEA
+=======================================================================================
+-------------------------------------------------------------------------------------
+3.1. Abrir la carpeta del proyecto
+-------------------------------------------------------------------------------------
+
+Abrir IntelliJ IDEA.
+
+En la pantalla de bienvenida, seleccionar Open.
+
+Buscar la carpeta PruebaPetStore.
+
+Seleccionar la carpeta que contiene directamente el archivo pom.xml.
+
+Presionar Open.
+
+Si aparece una solicitud de confianza, continuar únicamente si se reconoce el repositorio y se confía en su contenido.
+
+Resultado esperado: IntelliJ IDEA abre el proyecto y muestra sus archivos en el panel Project.
+
+===============================================================================================
+PASO 4. Configurar Java JDK 21 desde IntelliJ IDEA
+===============================================================================================
+
+El proyecto está configurado para compilar con Java 21. IntelliJ IDEA permite descargar un JDK desde la configuración del proyecto, sin necesidad de instalarlo manualmente desde una página externa.
+
+---------------------------------------------------------------------------------------------
+4.1. Descargar el JDK
+---------------------------------------------------------------------------------------------
+
+En IntelliJ IDEA, abrir el proyecto PruebaPetStore.
+
+Ingresar a File → Project Structure. También se puede utilizar el atajo Ctrl + Alt + Shift + S.
+
+En Project Settings → Project, localizar la opción SDK o Project SDK.
+
+Abrir la lista de SDK disponibles.
+
+Seleccionar Download JDK, si aparece esta opción.
+
+Elegir la versión 21.
+
+Seleccionar un proveedor disponible, como Eclipse Temurin u Oracle OpenJDK.
+
+Mantener la ubicación predeterminada o seleccionar otra carpeta si es necesario.
+
+Presionar Download y esperar a que finalice la descarga.
+
+Si la opción Download JDK no aparece, utilizar la opción para agregar un SDK y buscar la alternativa de descarga disponible en esa versión de IntelliJ IDEA.
+
+----------------------------------------------------------------------------------------------
+4.2. Asignar Java al proyecto
+----------------------------------------------------------------------------------------------
+
+Una vez descargado el JDK:
+
+Seleccionar el JDK 21 como Project SDK.
+
+Configurar Language level en Java 21, si la opción está disponible.
+
+Presionar Apply y después OK.
+
+Resultado esperado: IntelliJ IDEA reconoce Java 21 y lo utiliza para el proyecto.
 
 --------------------------------------------------------------------------------
-2.1. Descargar IntelliJ IDEA
---------------------------------------------------------------------------------
-
-1. Abre el navegador.
-2. Ingresa a la página oficial:
-
-   https://www.jetbrains.com/idea/download/
-
-3. Busca la versión para Windows.
-4. Selecciona la edición disponible que permita trabajar con proyectos Java
-   y Maven. La edición gratuita puede ser suficiente para este ejercicio.
-5. Descarga el instalador.
-6. Ejecuta el archivo descargado.
-7. Sigue las instrucciones del asistente de instalación.
-8. Finaliza la instalación.
-9. Abre IntelliJ IDEA desde el menú Inicio de Windows.
-
-Si el programa solicita importar configuraciones anteriores y no tienes una
-configuración previa, puedes continuar sin importar ajustes.
-
---------------------------------------------------------------------------------
-2.2. Primer inicio de IntelliJ IDEA
---------------------------------------------------------------------------------
-
-1. Abre IntelliJ IDEA.
-2. Si aparece una pantalla de bienvenida, selecciona Open para abrir un
-   proyecto existente.
-3. Si aparece una pantalla de configuración inicial, completa los pasos
-   solicitados.
-4. No necesitas crear un proyecto Java nuevo, porque el proyecto PetStore
-   se descargará desde GitHub.
-
-RESULTADO ESPERADO:
-
-IntelliJ IDEA abre y muestra su pantalla inicial, desde la cual es posible
-abrir un proyecto existente.
-
-SI INTELLIJ IDEA YA ESTÁ INSTALADO:
-Puedes omitir la instalación y continuar con el PASO 3.
-
-================================================================================
-PASO 3: DESCARGAR EL PROYECTO DESDE GITHUB
-================================================================================
-
---------------------------------------------------------------------------------
-3.1. Verificar si Git está instalado
---------------------------------------------------------------------------------
-
-Abre PowerShell y ejecuta:
-
-   git --version
-
-RESULTADO ESPERADO:
-
-Se muestra la versión instalada de Git.
-
-Si el comando no se reconoce, descarga Git desde:
-
-   https://git-scm.com/downloads
-
-Instálalo siguiendo las instrucciones y abre una nueva terminal.
-
-También puedes descargar el proyecto como ZIP desde GitHub si no deseas
-instalar Git.
-
---------------------------------------------------------------------------------
-3.2. Clonar el repositorio
---------------------------------------------------------------------------------
-
-1. Abre PowerShell.
-2. Dirígete a la ubicación donde deseas guardar el proyecto.
-
-   Ejemplo para guardarlo en el escritorio:
-
-   cd $HOME\Desktop
-
-3. Ejecuta:
-
-   git clone https://github.com/PinguiPau/PruebaPetStore.git
-
-RESULTADO ESPERADO:
-
-Git descarga el repositorio y crea una carpeta llamada:
-
-   PruebaPetStore
-
-Si aparece un mensaje indicando que el repositorio no existe, abre el enlace
-en el navegador y verifica que la dirección sea correcta y que el repositorio
-esté disponible públicamente.
-
---------------------------------------------------------------------------------
-3.3. Ingresar a la carpeta del proyecto
---------------------------------------------------------------------------------
-
-Ejecuta:
-
-   cd PruebaPetStore
-
-Después ejecuta:
-
-   Get-ChildItem
-
-RESULTADO ESPERADO:
-
-En la lista de archivos debe aparecer:
-
-   pom.xml
-
-También debe aparecer la carpeta:
-
-   src
-
-El archivo pom.xml contiene la configuración de Maven y las dependencias del
-proyecto.
-
-Si no aparece pom.xml, es posible que estés en una carpeta incorrecta o dentro
-de una carpeta adicional creada al extraer un ZIP.
-
-No ejecutes Maven hasta ubicar la carpeta que contiene pom.xml.
-
-================================================================================
-PASO 4: ABRIR Y PREPARAR EL PROYECTO EN INTELLIJ IDEA
-================================================================================
-
---------------------------------------------------------------------------------
-4.1. Abrir la carpeta correcta
---------------------------------------------------------------------------------
-
-1. Abre IntelliJ IDEA.
-2. Selecciona Open.
-3. Busca la carpeta PruebaPetStore.
-4. Selecciona la carpeta que contiene directamente pom.xml.
-5. Haz clic en Open.
-6. Si IntelliJ IDEA pregunta si confías en el proyecto, continúa únicamente
-   si reconoces el repositorio y confías en su contenido.
-
-RESULTADO ESPERADO:
-
-El proyecto aparece en IntelliJ IDEA y se muestra el panel Project con sus
-archivos y carpetas.
-
---------------------------------------------------------------------------------
-4.2. Esperar la importación de Maven
+4.3. Esperar la importación de Maven
 --------------------------------------------------------------------------------
 
 Cuando se abre el proyecto por primera vez, IntelliJ IDEA debe reconocer
@@ -334,28 +242,54 @@ con el proyecto quedan disponibles.
 Si aparecen errores como Cannot resolve symbol, consulta el incidente 1 del
 PASO 7.
 
+----------------------------------------------------------------------------
+4.4. Configurar Java para Maven
+----------------------------------------------------------------------------
+
+Para que Maven utilice la misma versión de Java, revisar su configuración dentro de IntelliJ IDEA.
+
+Abrir File → Settings.
+
+Ingresar a Build, Execution, Deployment → Build Tools → Maven → Runner.
+
+Buscar la opción JRE.
+
+Seleccionar el JDK 21 configurado anteriormente.
+
+Si existe la opción Maven → Importing, abrirla y seleccionar también el JDK 21 como JDK del importador.
+
+Presionar Apply y OK.
+
+Los nombres exactos de las opciones pueden variar según la versión de IntelliJ IDEA.
+
+Importante: configurar el JDK dentro de IntelliJ IDEA no significa necesariamente que Windows ya lo reconozca desde una terminal externa. Para el procedimiento principal, se puede continuar utilizando la configuración del IDE.
+
+----------------------------------------------------------------------------
+4.5. Configurar Maven desde IntelliJ IDEA
+----------------------------------------------------------------------------
+
+En IntelliJ IDEA, abrir File → Settings.
+
+Ingresar a Build, Execution, Deployment → Build Tools → Maven.
+
+Buscar la opción Maven home path.
+
+Revisar las distribuciones disponibles.
+
+Si aparece la opción Bundled (Maven 3) o una distribución integrada equivalente, seleccionarla.
+
+Si el proyecto incluye un Maven Wrapper, también se puede utilizar esa opción. El Wrapper utiliza los archivos mvnw o mvnw.cmd para preparar y ejecutar la versión de Maven definida por el proyecto.
+
+Si IntelliJ IDEA ofrece una opción para descargar o configurar una distribución de Maven, seguir las indicaciones que aparecen en pantalla.
+
+Guardar los cambios con Apply y OK.
+
+Resultado esperado: IntelliJ IDEA dispone de una distribución de Maven para trabajar con el proyecto.
+
+Nota: si la versión instalada de IntelliJ IDEA no ofrece una distribución integrada ni permite descargar Maven desde esta configuración, será necesario configurar una distribución externa o utilizar el Maven Wrapper si está disponible.
+
 --------------------------------------------------------------------------------
-4.3. Seleccionar el JDK del proyecto
---------------------------------------------------------------------------------
-
-Si IntelliJ IDEA solicita configurar el SDK:
-
-1. Abre File -> Project Structure.
-2. Busca la configuración Project SDK.
-3. Selecciona el JDK 21 instalado.
-4. Si no aparece, utiliza la opción para agregar un JDK y selecciona su carpeta
-   de instalación.
-5. Guarda los cambios.
-
-RESULTADO ESPERADO:
-
-IntelliJ IDEA reconoce el JDK utilizado por el proyecto.
-
-Si el proyecto ya tiene configurado un JDK compatible, no es necesario
-modificarlo.
-
---------------------------------------------------------------------------------
-4.4. Comprobar la estructura del proyecto
+4.6. Comprobar la estructura del proyecto
 --------------------------------------------------------------------------------
 
 En el panel Project, identifica los siguientes elementos:
@@ -435,7 +369,7 @@ Después:
 3. Comprueba que estás en la carpeta raíz del proyecto.
 4. Ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -453,7 +387,7 @@ En PetStoreTest.java, utiliza:
 
 Guarda el archivo y ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -475,7 +409,7 @@ En PetStoreTest.java, utiliza:
 
 Guarda los cambios y ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -494,7 +428,7 @@ En PetStoreTest.java, utiliza:
 
 Guarda los cambios y ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -513,7 +447,7 @@ En PetStoreTest.java, utiliza:
 
 Guarda los cambios y ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -537,7 +471,7 @@ Después:
 2. Abre la terminal integrada.
 3. Ejecuta:
 
-   mvn clean test
+   mvn clean test o haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 
 RESULTADO ESPERADO:
 
@@ -574,7 +508,7 @@ Y deseas ejecutar el flujo integrado, reemplaza esa ruta por:
 Después de modificarla:
 
 1. Guarda el archivo con Ctrl + S.
-2. Ejecuta mvn clean test.
+2. Ejecuta mvn clean test o Haz clic en el icono de ejecución situado junto al método, selecciona la opción Run.
 3. Revisa el resultado de Maven.
 4. Comprueba el reporte generado.
 
@@ -1075,37 +1009,97 @@ RESULTADO ESPERADO:
 
 Se ejecutan los escenarios correspondientes a la configuración del runner.
 
-================================================================================
-PASO 8: VERIFICACIÓN FINAL Y ENTREGA DEL PROYECTO
-================================================================================
+=================================================================================
+PASO 8. Instalación independiente de Java y Maven (opcional)
+=================================================================================
 
-Antes de entregar el ejercicio, comprueba lo siguiente:
+Esta sección está dirigida a quienes deseen utilizar Java y Maven desde CMD, PowerShell u otras herramientas externas a IntelliJ IDEA.
 
-* Java está instalado y se reconoce desde la terminal.
+Si el proyecto se ejecuta correctamente desde IntelliJ IDEA, se puede omitir este paso.
 
-* Maven está instalado y se reconoce desde la terminal.
+------------------------------------------------------------------------------
+8.1. Instalar Java JDK 21 por separado
+------------------------------------------------------------------------------
 
-* IntelliJ IDEA abre el proyecto correctamente.
+Abrir la página oficial de Eclipse Temurin:
 
-* El proyecto se descargó desde el repositorio de GitHub.
+https://adoptium.net/temurin/releases/
 
-* pom.xml está disponible en la raíz del proyecto.
+Seleccionar Windows como sistema operativo.
 
-* Las dependencias de Maven se han cargado correctamente.
+Seleccionar la arquitectura correspondiente al equipo, normalmente x64.
 
-* PetStoreTest.java apunta al escenario que se desea ejecutar.
+Seleccionar la versión 21 y el paquete JDK.
 
-* Los archivos .feature están disponibles.
+Descargar el instalador disponible.
 
-* La ejecución de Maven terminó correctamente.
+Ejecutarlo y seguir las instrucciones.
 
-* Se revisó el resumen de pruebas.
+Si el instalador ofrece opciones para agregar Java al PATH o configurar JAVA_HOME, habilitarlas si se desea utilizar Java desde la terminal.
 
-* Se consultó el reporte HTML generado por Karate.
+Finalizar la instalación.
 
-* El archivo readme.txt contiene las instrucciones de instalación y ejecución.
+Como alternativa, se puede consultar la distribución de Oracle JDK:
 
-* El archivo conclusiones.txt documenta los hallazgos del ejercicio.
+https://www.oracle.com/java/technologies/downloads/
+
+Verificar Java
+
+Abrir una terminal nueva y ejecutar:
+
+java -version
+
+Para revisar la variable JAVA_HOME en CMD:
+
+echo %JAVA_HOME%
+
+En PowerShell:
+
+$env:JAVA_HOME
+
+La versión utilizada debe ser compatible con la configuración del proyecto. Se recomienda Java 21.
+
+------------------------------------------------------------------------------
+8.2. Instalar Apache Maven por separado
+------------------------------------------------------------------------------
+
+Abrir la página oficial de descargas:
+
+https://maven.apache.org/download.cgi
+
+Descargar el archivo Binary zip archive.
+
+Esperar a que termine la descarga.
+
+Extraer el ZIP en una carpeta permanente, por ejemplo:
+
+C:\Tools\
+
+Identificar la carpeta extraída, cuyo nombre tendrá un formato similar a apache-maven-3.x.x.
+
+Abrir la configuración de variables de entorno de Windows.
+
+En las variables de usuario, editar Path.
+
+Agregar la ruta completa de la carpeta bin de Maven. Por ejemplo:
+
+C:\Tools\apache-maven-3.x.x\bin
+
+Se debe sustituir 3.x.x por la versión realmente descargada y utilizar la ruta donde se extrajo Maven.
+
+Guardar los cambios.
+
+Cerrar y abrir nuevamente la terminal.
+
+Verificar Maven
+
+Ejecutar:
+
+mvn -version
+
+El resultado debe mostrar la versión de Maven y el JDK que utiliza.
+
+Si Maven no encuentra Java, verificar que el JDK esté instalado y que la configuración de JAVA_HOME y Path sea correcta.
 
 --------------------------------------------------------------------------------
 CONSIDERACIONES FINALES
