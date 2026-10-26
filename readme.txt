@@ -24,219 +24,155 @@ https://github.com/PinguiPau/PruebaPetStore.git
 API utilizada:
 https://petstore.swagger.io/v2
 
+HERRAMIENTAS UTILIZADAS
+
+Apache Maven: administra las dependencias y permite ejecutar las pruebas.
+
+IntelliJ IDEA: entorno de desarrollo utilizado para abrir y trabajar con
+el proyecto.
+
+Java JDK 21: entorno de desarrollo requerido para compilar y ejecutar
+el proyecto.
+
+Git: permite clonar el repositorio desde GitHub.
+
+Karate: framework utilizado para automatizar las pruebas de API REST.
+
+JUnit: permite integrar y ejecutar las pruebas desde Java.
+
+IMPORTANTE:
+
+Para simplificar la configuración, este manual utiliza IntelliJ IDEA para
+descargar y configurar Java JDK 21. No es necesario instalar Java
+manualmente desde una página web.
+
+La instalación de Maven se describe primero, pero su verificación y ejecución
+se realizarán después de configurar Java JDK 21.
+
+Apache Maven es una herramienta que permite administrar las dependencias,
+compilar el proyecto y ejecutar las pruebas automatizadas.
+
+El archivo pom.xml del proyecto contiene las dependencias y configuraciones
+que Maven utiliza para preparar el entorno de ejecución.
+
+En este procedimiento se utilizará WinGet, el administrador de paquetes de
+Windows, para instalar Maven mediante comandos, sin tener que descargar y
+extraer manualmente un archivo ZIP.
+
 ================================================================================
-CÓMO CLONAR Y EJECUTAR RÁPIDAMENTE
+PASO 1: INSTALACIÓN DE APACHE MAVEN MEDIANTE CMD
 ================================================================================
 
-IMPORTANTE: Antes de ejecutar estos comandos, Java y Maven deben estar
-instalados y configurados correctamente.
+1.1. Verificar que WinGet esté disponible
 
-1. Abrir PowerShell o CMD.
+Abre el menú Inicio de Windows.
 
-2. Clonar el repositorio:
+Escribe CMD y abre el Símbolo del sistema.
 
-   git clone https://github.com/PinguiPau/PruebaPetStore.git
+Ejecuta el siguiente comando:
 
-3. Ingresar a la carpeta del proyecto:
-
-   cd PruebaPetStore
-
-4. Ejecutar las pruebas configuradas en el proyecto:
-
-   mvn clean test
-
-5. Consultar el reporte generado, si la ejecución lo produce:
-
-   target/karate-reports/karate-summary.html
-
-Para ejecutar un escenario específico, consulta el PASO 6 de este manual.
-
-================================================================================
-PASO 1: INSTALACIÓN Y VERIFICACIÓN DE JAVA JDK 21
-================================================================================
-
-Java es el entorno que permite ejecutar el código utilizado por el proyecto.
-Para este ejercicio se utiliza Java JDK 21.
-
---------------------------------------------------------------------------------
-1.1. Verificar si Java está instalado
---------------------------------------------------------------------------------
-
-1. Abre el menú Inicio de Windows.
-2. Escribe PowerShell.
-3. Abre Windows PowerShell.
-4. Ejecuta el siguiente comando:
-
-   java -version
+winget --version
 
 RESULTADO ESPERADO:
 
-La terminal debe mostrar la versión de Java instalada.
+La terminal muestra la versión de WinGet instalada.
 
-Ejemplo de referencia:
+Si el comando no se reconoce, comprueba que el componente Instalador de
+aplicaciones (App Installer) esté instalado y actualizado en Windows.
 
-   java version "21.0.x"
+1.2. Buscar Apache Maven
 
-El texto exacto puede variar según el proveedor y la actualización instalada.
+En la terminal CMD, ejecuta:
 
-VERIFICA SI LA VERSIÓN JAVA SEA LA VERSIÓN 21 Y:
-Continúa con el paso 1.3.
+winget search Maven --source winget
 
-SI APARECE EL MENSAJE "'JAVA' NO SE RECONOCE COMO UN COMANDO":
-Continúa con el paso 1.2.
-
---------------------------------------------------------------------------------
-1.2. Descargar e instalar Java JDK 21
---------------------------------------------------------------------------------
-
-1. Abre el navegador web.
-2. Ingresa al sitio oficial de Eclipse Temurin:
-
-   https://adoptium.net/es/temurin/releases?version=21&os=any&arch=any
-
-3. Busca la descarga de JDK 21.
-4. Selecciona el sistema operativo Windows y la arquitectura correspondiente
-   a tu equipo, normalmente x64.
-5. Descarga el instalador disponible para Windows.
-6. Ejecuta el instalador y sigue las instrucciones que aparecen en pantalla.
-7. Si el instalador ofrece opciones para agregar Java al PATH o establecer
-   JAVA_HOME, actívalas si están disponibles.
-8. Finaliza la instalación.
-9. Cierra las terminales que estaban abiertas y abre una nueva ventana de
-   PowerShell.
-10. Ejecuta:
-
-    java -version
+Este comando busca paquetes relacionados con Maven utilizando la fuente
+winget, sin recurrir a la fuente de Microsoft Store.
 
 RESULTADO ESPERADO:
 
-La terminal muestra la versión de Java instalada.
+La terminal muestra una lista de resultados relacionados con Maven.
+Busca el paquete correspondiente a Apache Maven e identifica su nombre
+y su identificador (Id).
 
-Si el comando sigue sin reconocerse, revisa la variable PATH de Windows y
-comprueba que la carpeta bin del JDK esté incluida en ella.
+IMPORTANTE: Si utilizas el comando winget search Maven sin especificar
+la fuente, puede aparecer un mensaje similar al siguiente:
 
---------------------------------------------------------------------------------
-1.3. Verificar la variable JAVA_HOME
---------------------------------------------------------------------------------
+The msstore source requires that you view the following agreements
+before using.
 
-En PowerShell, ejecuta:
+Do you agree to all the source agreements terms?
+[Y] Yes  [N] No:
 
-   $env:JAVA_HOME
+Este mensaje solicita aceptar los términos de la fuente Microsoft Store.
+No significa que Maven haya fallado ni que exista un problema con Windows.
+
+Si deseas continuar utilizando esa fuente, puedes escribir Y y presionar
+Enter, siempre que estés de acuerdo con los términos mostrados.
+
+Sin embargo, para este procedimiento se recomienda utilizar directamente:
+
+winget search Maven --source winget
+
+1.3. Instalar Apache Maven
+
+Después de identificar el paquete correspondiente en los resultados,
+ejecuta el comando de instalación con el identificador que aparezca.
+
+Por ejemplo, si el identificador mostrado es Apache.Maven, utiliza:
+
+winget install --id Apache.Maven -e --source winget
+
+IMPORTANTE: El identificador debe coincidir con el que aparece en los
+resultados de búsqueda. Si es diferente, reemplaza Apache.Maven por el
+identificador correcto.
+
+Espera a que termine la instalación. Si Windows solicita autorización
+para realizar cambios, revisa la solicitud y autoriza la operación si
+corresponde.
+
+1.4. Verificar la instalación de Maven
+
+Cuando finalice la instalación:
+
+Cierra la ventana de CMD.
+
+Abre una nueva ventana del Símbolo del sistema.
+
+Ejecuta:
+
+mvn -version
 
 RESULTADO ESPERADO:
 
-Se muestra una ruta similar a la siguiente:
+La terminal muestra información sobre la versión de Apache Maven y la
+versión de Java que utiliza para ejecutarse.
 
-   C:\Program Files\Eclipse Adoptium\jdk-21...
+Si el comando mvn no se reconoce, comprueba que la instalación haya
+finalizado correctamente y que la ruta de Maven esté disponible en la
+variable PATH de Windows.
 
-La ruta exacta depende de la instalación.
+Si Maven indica que no encuentra Java o que JAVA_HOME no está configurada,
+no significa necesariamente que Maven se haya instalado mal. Continúa
+con el PASO 2 para descargar y configurar Java JDK 21 desde IntelliJ IDEA.
+Después, vuelve a ejecutar mvn -version.
 
-Si el resultado aparece vacío, JAVA_HOME no está configurada para esa sesión.
+NOTA:
 
-Para configurarla, abre la búsqueda de Windows y escribe:
-
-   Editar las variables de entorno del sistema
-
-Después:
-
-1. Abre la ventana de Propiedades del sistema.
-2. Selecciona Variables de entorno.
-3. En las variables del sistema, crea o edita JAVA_HOME.
-4. Introduce la ruta real de la carpeta raíz del JDK 21.
-5. Verifica que la variable PATH incluya:
-
-   %JAVA_HOME%\bin
-
-6. Guarda los cambios y abre una nueva terminal.
-
-No incluyas \bin al final del valor de JAVA_HOME.
-
-Vuelve a ejecutar:
-
-   java -version
-
-   $env:JAVA_HOME
-
-[SI JAVA SE RECONOCE CORRECTAMENTE, AVANZA AL PASO 2]
+Para ejecutar Maven se necesita un JDK compatible. En este manual se
+utilizará Java JDK 21, descargado y configurado directamente desde
+IntelliJ IDEA, por lo que no es necesario instalar Java manualmente
+desde una página web.
 
 ================================================================================
-PASO 2: INSTALACIÓN Y VERIFICACIÓN DE APACHE MAVEN
-================================================================================
-
-Maven es la herramienta que administra las dependencias, compila el proyecto
-y ejecuta las pruebas automatizadas configuradas.
-
---------------------------------------------------------------------------------
-2.1. Verificar si Maven está instalado
---------------------------------------------------------------------------------
-
-En PowerShell, ejecuta:
-
-   mvn -version
-
-RESULTADO ESPERADO:
-
-La terminal muestra información similar a:
-
-   Apache Maven 3.9.x
-   Java version: 21...
-
-Los números exactos pueden variar.
-
-SI MAVEN MUESTRA SU VERSIÓN:
-Continúa con el paso 3.
-
-SI APARECE "'MVN' NO SE RECONOCE COMO UN COMANDO":
-Continúa con el paso 2.2.
-
---------------------------------------------------------------------------------
-2.2. Descargar e instalar Maven
---------------------------------------------------------------------------------
-
-1. Abre el sitio oficial de Apache Maven:
-
-   https://maven.apache.org/download.cgi
-
-2. Descarga el archivo binario ZIP de Maven (Binary zip archive).
-3. Extrae el contenido en una carpeta permanente, por ejemplo:
-
-   C:\Tools\apache-maven
-
-   El nombre final de la carpeta dependerá de la versión descargada.
-
-4. Abre la configuración de variables de entorno de Windows.
-5. Comprueba que JAVA_HOME apunte al JDK instalado.
-6. Agrega la carpeta bin de Maven a la variable PATH.
-
-   Ejemplo ilustrativo:
-
-   C:\Tools\apache-maven\bin
-
-   Debes utilizar la ruta real de la carpeta extraída.
-
-7. Guarda los cambios.
-8. Abre una nueva terminal de PowerShell.
-9. Ejecuta:
-
-   mvn -version
-
-RESULTADO ESPERADO:
-
-Maven muestra su versión y la versión de Java que está utilizando.
-
-Si Maven no reconoce Java, vuelve al paso 1.3 y verifica JAVA_HOME.
-
-[SI JAVA Y MAVEN FUNCIONAN, AVANZA AL PASO 3]
-
-================================================================================
-PASO 3: DESCARGA E INSTALACIÓN DE INTELLIJ IDEA
+PASO 2: DESCARGA E INSTALACIÓN DE INTELLIJ IDEA
 ================================================================================
 
 IntelliJ IDEA es el entorno de desarrollo utilizado para abrir el proyecto,
 visualizar el código Java, editar los escenarios y ejecutar las pruebas.
 
 --------------------------------------------------------------------------------
-3.1. Descargar IntelliJ IDEA
+2.1. Descargar IntelliJ IDEA
 --------------------------------------------------------------------------------
 
 1. Abre el navegador.
@@ -257,7 +193,7 @@ Si el programa solicita importar configuraciones anteriores y no tienes una
 configuración previa, puedes continuar sin importar ajustes.
 
 --------------------------------------------------------------------------------
-3.2. Primer inicio de IntelliJ IDEA
+2.2. Primer inicio de IntelliJ IDEA
 --------------------------------------------------------------------------------
 
 1. Abre IntelliJ IDEA.
@@ -274,14 +210,14 @@ IntelliJ IDEA abre y muestra su pantalla inicial, desde la cual es posible
 abrir un proyecto existente.
 
 SI INTELLIJ IDEA YA ESTÁ INSTALADO:
-Puedes omitir la instalación y continuar con el PASO 4.
+Puedes omitir la instalación y continuar con el PASO 3.
 
 ================================================================================
-PASO 4: DESCARGAR EL PROYECTO DESDE GITHUB
+PASO 3: DESCARGAR EL PROYECTO DESDE GITHUB
 ================================================================================
 
 --------------------------------------------------------------------------------
-4.1. Verificar si Git está instalado
+3.1. Verificar si Git está instalado
 --------------------------------------------------------------------------------
 
 Abre PowerShell y ejecuta:
@@ -302,7 +238,7 @@ También puedes descargar el proyecto como ZIP desde GitHub si no deseas
 instalar Git.
 
 --------------------------------------------------------------------------------
-4.2. Clonar el repositorio
+3.2. Clonar el repositorio
 --------------------------------------------------------------------------------
 
 1. Abre PowerShell.
@@ -327,7 +263,7 @@ en el navegador y verifica que la dirección sea correcta y que el repositorio
 esté disponible públicamente.
 
 --------------------------------------------------------------------------------
-4.3. Ingresar a la carpeta del proyecto
+3.3. Ingresar a la carpeta del proyecto
 --------------------------------------------------------------------------------
 
 Ejecuta:
@@ -357,11 +293,11 @@ de una carpeta adicional creada al extraer un ZIP.
 No ejecutes Maven hasta ubicar la carpeta que contiene pom.xml.
 
 ================================================================================
-PASO 5: ABRIR Y PREPARAR EL PROYECTO EN INTELLIJ IDEA
+PASO 4: ABRIR Y PREPARAR EL PROYECTO EN INTELLIJ IDEA
 ================================================================================
 
 --------------------------------------------------------------------------------
-5.1. Abrir la carpeta correcta
+4.1. Abrir la carpeta correcta
 --------------------------------------------------------------------------------
 
 1. Abre IntelliJ IDEA.
@@ -378,7 +314,7 @@ El proyecto aparece en IntelliJ IDEA y se muestra el panel Project con sus
 archivos y carpetas.
 
 --------------------------------------------------------------------------------
-5.2. Esperar la importación de Maven
+4.2. Esperar la importación de Maven
 --------------------------------------------------------------------------------
 
 Cuando se abre el proyecto por primera vez, IntelliJ IDEA debe reconocer
@@ -396,10 +332,10 @@ Las dependencias comienzan a descargarse y las clases necesarias para trabajar
 con el proyecto quedan disponibles.
 
 Si aparecen errores como Cannot resolve symbol, consulta el incidente 1 del
-PASO 8.
+PASO 7.
 
 --------------------------------------------------------------------------------
-5.3. Seleccionar el JDK del proyecto
+4.3. Seleccionar el JDK del proyecto
 --------------------------------------------------------------------------------
 
 Si IntelliJ IDEA solicita configurar el SDK:
@@ -419,7 +355,7 @@ Si el proyecto ya tiene configurado un JDK compatible, no es necesario
 modificarlo.
 
 --------------------------------------------------------------------------------
-5.4. Comprobar la estructura del proyecto
+4.4. Comprobar la estructura del proyecto
 --------------------------------------------------------------------------------
 
 En el panel Project, identifica los siguientes elementos:
@@ -453,17 +389,17 @@ ejercicio. Si el repositorio descargado presenta diferencias, utiliza los
 nombres y rutas que realmente aparezcan en sus archivos.
 
 [SI EL PROYECTO ESTÁ ABIERTO, LAS DEPENDENCIAS ESTÁN CARGADAS Y LOS ARCHIVOS
-ESTÁN DISPONIBLES, AVANZA AL PASO 6]
+ESTÁN DISPONIBLES, AVANZA AL PASO 5]
 
 ================================================================================
-PASO 6: SELECCIONAR Y EJECUTAR LAS PRUEBAS
+PASO 5: SELECCIONAR Y EJECUTAR LAS PRUEBAS
 ================================================================================
 
 Este paso explica cómo ejecutar un escenario individual o el flujo completo
 del usuario.
 
 --------------------------------------------------------------------------------
-6.1. Comprender el archivo PetStoreTest.java
+5.1. Comprender el archivo PetStoreTest.java
 --------------------------------------------------------------------------------
 
 Abre:
@@ -485,7 +421,7 @@ escenario, siempre que no existan otros runners o configuraciones adicionales
 que también ejecuten pruebas.
 
 --------------------------------------------------------------------------------
-6.2. Ejecutar solamente la prueba de creación
+5.2. Ejecutar solamente la prueba de creación
 --------------------------------------------------------------------------------
 
 Para ejecutar la prueba de creación, configura el runner con esta ruta:
@@ -508,7 +444,7 @@ Maven compila el proyecto y ejecuta la prueba de creación configurada.
 Si las validaciones se cumplen, la prueba debe finalizar sin errores.
 
 --------------------------------------------------------------------------------
-6.3. Ejecutar solamente la prueba de consulta
+5.3. Ejecutar solamente la prueba de consulta
 --------------------------------------------------------------------------------
 
 En PetStoreTest.java, utiliza:
@@ -530,7 +466,7 @@ Si la consulta depende de un usuario creado previamente, asegúrate de que
 ese registro exista antes de ejecutar el escenario de forma independiente.
 
 --------------------------------------------------------------------------------
-6.4. Ejecutar solamente la prueba de actualización
+5.4. Ejecutar solamente la prueba de actualización
 --------------------------------------------------------------------------------
 
 En PetStoreTest.java, utiliza:
@@ -549,7 +485,7 @@ Si el escenario necesita un usuario existente, debe contar con los datos
 necesarios para realizar la operación.
 
 --------------------------------------------------------------------------------
-6.5. Ejecutar solamente la prueba de eliminación
+5.5. Ejecutar solamente la prueba de eliminación
 --------------------------------------------------------------------------------
 
 En PetStoreTest.java, utiliza:
@@ -568,7 +504,7 @@ Ten presente que, si el escenario elimina un usuario compartido con otras
 pruebas, las ejecuciones posteriores pueden depender de su estado.
 
 --------------------------------------------------------------------------------
-6.6. Ejecutar la verificación posterior a la eliminación
+5.6. Ejecutar la verificación posterior a la eliminación
 --------------------------------------------------------------------------------
 
 En PetStoreTest.java, utiliza:
@@ -588,7 +524,7 @@ La prueba debe evaluar la respuesta real según las validaciones definidas
 en verificar-eliminacion.feature.
 
 --------------------------------------------------------------------------------
-6.7. Ejecutar el flujo integrado completo
+5.7. Ejecutar el flujo integrado completo
 --------------------------------------------------------------------------------
 
 Para ejecutar el proceso completo, configura el runner con:
@@ -621,7 +557,7 @@ El orden y las validaciones exactas dependen del contenido real de
 flujo-usuario.feature.
 
 --------------------------------------------------------------------------------
-6.8. ¿Qué debo cambiar para ejecutar otro archivo?
+5.8. ¿Qué debo cambiar para ejecutar otro archivo?
 --------------------------------------------------------------------------------
 
 Solo debes cambiar la ruta que se encuentra dentro de Runner.path(...) en
@@ -659,7 +595,7 @@ Para este ejercicio, modifica la ruta existente en PetStoreTest.java en lugar
 de crear runners adicionales innecesariamente.
 
 --------------------------------------------------------------------------------
-6.9. Ejecutar desde IntelliJ IDEA
+5.9. Ejecutar desde IntelliJ IDEA
 --------------------------------------------------------------------------------
 
 También puedes ejecutar las pruebas desde el entorno gráfico.
@@ -678,11 +614,11 @@ La ejecución mediante Maven sigue siendo la alternativa recomendada para
 reproducir el ejercicio desde una terminal.
 
 ================================================================================
-PASO 7: COMPROBAR LOS RESULTADOS Y ABRIR EL REPORTE
+PASO 6: COMPROBAR LOS RESULTADOS Y ABRIR EL REPORTE
 ================================================================================
 
 --------------------------------------------------------------------------------
-7.1. Ejecutar las pruebas desde la terminal
+6.1. Ejecutar las pruebas desde la terminal
 --------------------------------------------------------------------------------
 
 Desde la carpeta que contiene pom.xml, ejecuta:
@@ -707,7 +643,7 @@ Este resultado es ilustrativo. El número de pruebas depende del archivo
 seleccionado y de la configuración del runner.
 
 --------------------------------------------------------------------------------
-7.2. Ubicación del reporte
+6.2. Ubicación del reporte
 --------------------------------------------------------------------------------
 
 Después de ejecutar las pruebas, revisa la carpeta:
@@ -723,7 +659,7 @@ Su ruta relativa es:
    target/karate-reports/karate-summary.html
 
 --------------------------------------------------------------------------------
-7.3. Abrir el reporte en el navegador
+6.3. Abrir el reporte en el navegador
 --------------------------------------------------------------------------------
 
 1. Abre el explorador de archivos de Windows.
@@ -739,7 +675,7 @@ El navegador abre el reporte de Karate con el resumen de la ejecución y los
 detalles disponibles de los escenarios.
 
 --------------------------------------------------------------------------------
-7.4. Interpretar el reporte
+6.4. Interpretar el reporte
 --------------------------------------------------------------------------------
 
 Comprueba:
@@ -758,7 +694,7 @@ Si configuraste flujo-usuario.feature, revisa los resultados de las operaciones
 que realmente estén incluidas en ese escenario.
 
 --------------------------------------------------------------------------------
-7.5. Si el reporte no aparece
+6.5. Si el reporte no aparece
 --------------------------------------------------------------------------------
 
 1. Verifica que la ejecución haya terminado.
@@ -772,7 +708,7 @@ que realmente estén incluidas en ese escenario.
 No utilices un reporte anterior como evidencia de una ejecución nueva.
 
 ================================================================================
-PASO 8: SOLUCIÓN DE INCIDENTES COMUNES
+PASO 7: SOLUCIÓN DE INCIDENTES COMUNES
 ================================================================================
 
 Esta sección documenta los problemas encontrados durante el desarrollo del
@@ -1140,7 +1076,7 @@ RESULTADO ESPERADO:
 Se ejecutan los escenarios correspondientes a la configuración del runner.
 
 ================================================================================
-PASO 9: VERIFICACIÓN FINAL Y ENTREGA DEL PROYECTO
+PASO 8: VERIFICACIÓN FINAL Y ENTREGA DEL PROYECTO
 ================================================================================
 
 Antes de entregar el ejercicio, comprueba lo siguiente:
