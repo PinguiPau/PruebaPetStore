@@ -79,7 +79,7 @@ Ejemplo de referencia:
 
 El texto exacto puede variar según el proveedor y la actualización instalada.
 
-SI APARECE LA VERSIÓN 21 O UNA VERSIÓN COMPATIBLE CON EL PROYECTO:
+VERIFICA SI LA VERSIÓN JAVA SEA LA VERSIÓN 21 Y:
 Continúa con el paso 1.3.
 
 SI APARECE EL MENSAJE "'JAVA' NO SE RECONOCE COMO UN COMANDO":
