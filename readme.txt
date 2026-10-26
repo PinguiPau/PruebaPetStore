@@ -197,7 +197,7 @@ Continúa con el paso 2.2.
 
    https://maven.apache.org/download.cgi
 
-2. Descarga el archivo binario ZIP de Maven.
+2. Descarga el archivo binario ZIP de Maven (Binary zip archive).
 3. Extrae el contenido en una carpeta permanente, por ejemplo:
 
    C:\Tools\apache-maven
